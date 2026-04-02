@@ -29,8 +29,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-const WHATSAPP_NUMBER = "972500000000"; // Placeholder number
-const PHONE_NUMBER = "050-0000000"; // Placeholder number
+const WHATSAPP_NUMBER = "972543324494"; // User number
+const PHONE_NUMBER = "054-3324494"; // User number
 
 interface Service {
   id: string;
@@ -44,7 +44,7 @@ interface Service {
 const servicesData: Service[] = [
   {
     id: "moisture",
-    title: "איתור ואבחון נזקי מים",
+    title: "ייעוץ ואבחון נזקי מים ואיטום",
     icon: Droplets,
     shortDesc: "אבחון מדויק של מקור הנזילה — איטום או אינסטלציה — עם המלצות לתיקון ממוקדות.",
     fullDesc: "נזקי מים הם מהתקלות המורכבות והיקרות לטיפול  — חשוב לאבחן אותן בצורה מדויקת כבר מהשלב הראשון. אנו מתמחים באיתור מקור נזילות, בעיות איטום וכשלים במערכות אינסטלציה, תוך שימוש בגישה מקצועית ושיטתית שמונעת ניסויים וטעייה מיותר. השירות כולל אבחון בשטח, ניתוח מקור התקלה והמלצות לפתרון יעיל וחסכוני.",
@@ -305,7 +305,7 @@ export default function App() {
               <div className="flex flex-col md:flex-row gap-6 items-start mb-8">
                 <div className="max-w-xl">
                   <p className="text-lg md:text-2xl text-slate-200 leading-tight font-light py-2">
-                    פתרונות הנדסיים מקיפים לכל בית: מבדק בית ואיתור נזילות ועד שמאות נזקי רכוש ופיקוח בנייה. שירות מקצועי ובלתי מתפשר, עם חוות דעת הנדסיות מפורטות לפי התקנים וקבילות בבתי משפט.
+                    פתרונות הנדסיים מקיפים לבית: בדק בית, ליקויי בנייה, שמאות ופיקוח - שירות מקצועי עם חוות דעת קבילות בבית משפט.
                   </p>
                 </div>
                 
@@ -620,7 +620,7 @@ export default function App() {
                     </div>
                     <div>
                       <div className="technical-label">Email</div>
-                      <div className="text-2xl font-black">office@over-eng.co.il</div>
+                      <div className="text-2xl font-black">Samehover@gmail.com</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-8">
@@ -629,7 +629,7 @@ export default function App() {
                     </div>
                     <div>
                       <div className="technical-label">Location</div>
-                      <div className="text-2xl font-black">פריסה ארצית</div>
+                      <div className="text-2xl font-black">מהצפון עד המרכז</div>
                     </div>
                   </div>
                 </div>
