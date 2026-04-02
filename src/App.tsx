@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { db } from './firebase';
+import { collection, addDoc } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import { 
   Phone, 
@@ -42,43 +44,35 @@ interface Service {
 const servicesData: Service[] = [
   {
     id: "moisture",
-    title: "איתור נזילות ורטיבות",
+    title: "איתור ואבחון נזקי מים",
     icon: Droplets,
-    shortDesc: "איתור מדויק של מקור הרטיבות ללא הרס באמצעות מצלמות תרמיות ומדדי לחות מתקדמים.",
-    fullDesc: "שירות הדגל שלנו. אנו מתמחים באיתור מקורות חדירת מים ונזילות סמויות במבנים, דירות ופנטהאוזים. באמצעות שימוש בטכנולוגיה מתקדמת כגון מצלמות תרמיות, מדי לחות, וסיבים אופטיים, אנו מאתרים את הבעיה בדיוק מרבי וללא צורך בהרס מיותר. השירות כולל הפקת דוח מפורט המציג את מקור הכשל והמלצות לתיקון, מה שחוסך ללקוחותינו עשרות אלפי שקלים ועוגמת נפש.",
+    shortDesc: "אבחון מדויק של מקור הנזילה — איטום או אינסטלציה — עם המלצות לתיקון ממוקדות.",
+    fullDesc: "נזקי מים הם מהתקלות המורכבות והיקרות לטיפול הראשון — חשוב לאבחן אותן בצורה מדויקת כבר מהשלב. אנו מתמחים באיתור מקור נזילות, בעיות איטום וכשלים במערכות אינסטלציה, תוך שימוש בגישה מקצועית ושיטתית שמונעת ניסויים וטעייה מיותר. השירות כולל אבחון בשטח, ניתוח מקור התקלה והמלצות לפתרון יעיל וחסכוני.",
     mainImage: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "inspection",
-    title: "בדק בית מקיף",
+    title: "בדק בית וחוות דעת הנדסית",
     icon: ShieldCheck,
-    shortDesc: "בדיקת 360 מעלות לנכסים יד שנייה או דירות קבלן לאיתור ליקויים נסתרים לפני חתימה או מסירה.",
-    fullDesc: "בדיקה יסודית ומקיפה של הנכס לפני רכישה או קבלת מפתח מקבלן. המהנדסים המומחים שלנו סורקים את הנכס מן המסד ועד הטפחות, כולל בדיקות שלד, מערכות אינסטלציה, חשמל, איטום, ריצוף וחיפויים. אנו מאתרים ליקויי בנייה נסתרים וחריגות מהתקן, ומספקים דוח הנדסי מפורט המאפשר לכם לדרוש תיקונים או להפחית את מחיר הנכס, ומבטיח לכם שקט נפשי.",
+    shortDesc: "בדיקות מקצועיות לדירות חדשות ויד שנייה, כולל איתור ליקויי בנייה והפקת דוח הנדסי מפורט וברור.",
+    fullDesc: "רכישת דירה היא אחת ההחלטות הכלכליות והאקטיביות ביותר בעולם — ואנחנו כאן כדי להבטיח שהיא נעשית בצורה בטוחה ונכונה. אנו מספקים שירותי בדק בית מקיפים לדירות חדשות ויד שנייה, כוללות איתור ליקויי בנייה, בדיקות מערכות (אינסטלציה, איטום, ריצוף, חשמל ועוד) והפקת חוות דעת הנדסית מקצועית ומפורטת. הדוחות נערכים בצורה ברורה ומדויקת, ויכולים לשמש אתכם מול קבלנים, יזמים ואף בהליכים משפטיים בתנאי הצורך.",
     mainImage: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: "legal",
-    title: "חוות דעת משפטית",
+    title: "שמאות נזקי רכוש",
     icon: Scale,
-    shortDesc: "הפקת דוחות מומחה הנדסיים קבילים בבית משפט לניצחון במאבקים מול קבלנים ויזמים.",
-    fullDesc: "כאשר מתגלים ליקויי בנייה חמורים והקבלן מתנער מאחריות, אנו מספקים חוות דעת מומחה הנדסית הקבילה בבתי משפט. הדוחות שלנו מנוסחים בקפידה, מגובים בתקנים הישראליים, וכוללים תיעוד מצולם והערכת עלויות תיקון. הניסיון הרב שלנו במתן עדות מומחה בערכאות משפטיות מסייע ללקוחותינו למצות את זכויותיהם ולקבל את הפיצוי המגיע להם.",
+    shortDesc: "הערכת נזק מקצועית, כולל ליווי מול חברות ביטוח למיצוי זכויות מלא.",
+    fullDesc: "שמאות מקצועית היא הבסיס להתנהלות נכונה מול חברות ביטוח ולמיצוי הזכויות. אנו מספקים שירותי שמאות לנזקי רכוש, בדגש על נזקי מים, רטיבות ונזקים מבניים, כולל הערכה מדויקת והפקת חוות דעת מקצועית.",
     mainImage: "https://shpak-law.com/wp-content/uploads/2020/03/Litigation.jpg",
   },
   {
     id: "supervision",
     title: "פיקוח ובקרת איכות",
     icon: HardHat,
-    shortDesc: "פיקוח צמוד על פרויקטים המבטיח בנייה בטיחותית, איכותית ובהתאם לתקנים המחמירים.",
-    fullDesc: "שירותי פיקוח הנדסי ובקרת איכות לפרויקטים בבנייה, כולל תמ״א 38, פינוי בינוי ובנייה פרטית. אנו משמשים כ'עיניים שלכם בשטח', מוודאים שהקבלן עובד לפי התוכניות, המפרטים והתקנים. אנו מבצעים בדיקות איכות בכל שלבי הבנייה - החל מיציקות השלד, דרך התקנת המערכות ועד לגמרים. נוכחותנו מונעת ליקויים עתידיים ומבטיחה קבלת תוצר איכותי ובטיחותי.",
+    shortDesc: "ליווי מקצועי בפרויקטים פרטיים — כדי לוודא שהעבודה מצוינת ברמה גבוהה, בזמן ובאיכות.",
+    fullDesc: "בנייה או שיפוץ ללא פיקוח מקצועי עלולים להוביל לליקויים, עיכובים ובלת'מים. אנו מספקים שירותי פיקוח ובקרת איכות לאורך כל שלבי הפרויקט — משלב התכנון ועד למסירה — תוך שמירה על סטנדרטים גבוהים, הקפדה על ביצוע נכון ומניעת טעויות בשטח.",
     mainImage: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    id: "appraisal",
-    title: "שמאות נזקים ומבנים",
-    icon: Calculator,
-    shortDesc: "הערכת שווי נזקים במבנים, ירידת ערך, ואומדן עלויות שיקום ותיקון.",
-    fullDesc: "שירותי שמאות מקיפים להערכת נזקים במבנים כתוצאה מליקויי בנייה, נזקי מים, שריפות או פגעי טבע. אנו מספקים דוחות שמאות מפורטים הכוללים אומדן מדויק של עלויות השיקום, חישוב ירידת ערך הנכס, וחוות דעת מקצועית הנדרשת מול חברות הביטוח, קבלנים וערכאות משפטיות.",
-    mainImage: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800",
   }
 ];
 
@@ -93,6 +87,7 @@ export default function App() {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    service: '',
     message: ''
   });
 
@@ -104,11 +99,19 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const text = `שלום, שמי ${formData.name}. הטלפון שלי הוא ${formData.phone}. הודעה: ${formData.message}`;
-    const encodedText = encodeURIComponent(text);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`, '_blank');
+    try {
+      await addDoc(collection(db, 'contacts'), {
+        ...formData,
+        createdAt: new Date()
+      });
+      alert('ההודעה נשלחה בהצלחה!');
+      setFormData({ name: '', phone: '', service: '', message: '' });
+    } catch (error) {
+      console.error(error);
+      alert('שגיאה בשליחת ההודעה.');
+    }
   };
 
   const openService = (service: Service) => {
@@ -292,15 +295,15 @@ export default function App() {
                 </span>
               </div>
               
-              <h1 className="text-5xl md:text-[8rem] font-black text-white leading-[1.1] mb-6 tracking-tighter">
-                לא משאירים מקום <br />
-                <span className="text-accent">לספק.</span>
+              <h1 className="text-5xl md:text-[6rem] font-black text-white leading-[1.1] mb-6 tracking-tighter">
+                בדיקות הנדסיות, איתור נזילות ושמאות נזקי רכוש — <br />
+                <span className="text-accent">עם אחריות, ניסיון ואמינות.</span>
               </h1>
               
               <div className="flex flex-col md:flex-row gap-8 items-start mb-10">
                 <div className="max-w-xl">
                   <p className="text-xl md:text-2xl text-slate-200 leading-tight font-light pr-8 py-2">
-                    מומחים באיתור נזילות ורטיבות, בדק בית מקיף וחוות דעת משפטיות. טכנולוגיה מתקדמת וניסיון של עשרות שנים כדי להגן על הנכס שלכם.
+                    ליווי מקצועי לרוכשי דירות, בעלי נכסים ומשפצים — משלב הבדיקה ועד פתרון מלא בשטח.
                   </p>
                 </div>
                 
@@ -324,7 +327,7 @@ export default function App() {
                   className="bg-accent text-white px-12 py-6 rounded-lg font-black text-2xl flex items-center justify-center gap-4 hover:bg-accent-hover transition-all shadow-2xl shadow-accent/40 hover:-translate-y-2"
                 >
                   <Phone size={28} />
-                  חייג עכשיו לייעוץ
+                  קבלו ייעוץ ראשוני ללא התחייבות
                 </a>
                 <a 
                   href="#contact" 
@@ -350,7 +353,7 @@ export default function App() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-32 bg-white relative">
+      <section className="py-32 bg-white relative">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center gap-24">
             <motion.div 
@@ -370,6 +373,7 @@ export default function App() {
             </motion.div>
             
             <motion.div 
+              id="about"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -383,18 +387,18 @@ export default function App() {
               
               <div className="space-y-8 text-xl text-slate-600 leading-relaxed">
                 <p className="font-medium text-slate-900">
-                  רכישת נכס היא ההשקעה הגדולה בחייכם. חברת OVER הנדסה קיימת כדי לוודא שההשקעה הזו בטוחה, תקינה ונטולת הפתעות יקרות.
+                  המשרד מנוהל על ידי איש מקצוע בעל ניסיון רב בתחום הבנייה, בקרת איכות וניהול פרויקטים, עם התמחות בליקויי בנייה ונזקי מים.
                 </p>
                 <p>
-                  עם קרוב ל-30 שנות ניסיון, הפכנו לסמכות המובילה בישראל באיתור ליקויי בנייה מורכבים – בדגש על בעיות רטיבות ונזילות סמויות. אנו משתמשים בטכנולוגיה התרמית המתקדמת בעולם כדי לראות את מה שהעין האנושית מפספסת, וחוסכים ללקוחותינו עוגמת נפש והוצאות עתק.
+                  הגישה שלנו משלבת ידע הנדסי מעמיק עם ניסיון מעשי מהשטח — לספק פתרונות מדויקים, אמינים וישימים.
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-10">
                   {[
-                    "מומחיות באיתור רטיבות",
-                    "טכנולוגיה תרמית מתקדמת",
-                    "חיסכון של עשרות אלפי שקלים",
-                    "דוחות קבילים בבית משפט"
+                    "ניסיון מעשי בשטח ולא רק תיאורטי",
+                    "שילוב ייחודי של הנדסה + ביצוע + שמאות",
+                    "אמינות ושקיפות מלאה מול הלקוח",
+                    "יחס אישי וליווי עד פתרון מלא"
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-4 group">
                       <div className="w-12 h-12 rounded bg-slate-900 text-white flex items-center justify-center group-hover:bg-accent transition-colors">
@@ -411,7 +415,7 @@ export default function App() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-32 bg-slate-900 text-white relative overflow-hidden">
+      <section id="services" className="py-16 bg-slate-900 text-white relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
             <div className="max-w-3xl">
@@ -419,11 +423,10 @@ export default function App() {
               <h3 className="text-5xl md:text-8xl font-black leading-[1.1]">מומחיות <br />שחוסכת כסף.</h3>
             </div>
             <p className="text-2xl text-slate-400 max-w-md pr-8 py-2">
-              מעטפת שירותים הנדסיים מקיפה, בדגש על איתור נזילות וליקויים נסתרים. לחצו על כל שירות למידע נוסף ותמונות מהשטח.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {servicesData.map((service, idx) => (
               <motion.div 
                 key={service.id}
@@ -463,7 +466,7 @@ export default function App() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-32 bg-slate-50 relative overflow-hidden">
+      <section id="testimonials" className="py-16 bg-slate-50 relative overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <div className="technical-label">Client Feedback</div>
@@ -561,7 +564,28 @@ export default function App() {
           </div>
         </div>
       </section>
-      <section id="contact" className="py-32 bg-white">
+      {/* Tips Section */}
+      <section id="tips" className="py-20 bg-slate-100">
+        <div className="container mx-auto px-6">
+          <h3 className="text-4xl font-black mb-12 text-center">טיפים חשובים</h3>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+              <CheckCircle2 className="text-accent mb-4" size={32} />
+              <p className="font-bold text-lg">אל תותרו על בדק בית לפני קניית דירה</p>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+              <CheckCircle2 className="text-accent mb-4" size={32} />
+              <p className="font-bold text-lg">נזילה שלא מאובחנת נכון תחזור שוב</p>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+              <CheckCircle2 className="text-accent mb-4" size={32} />
+              <p className="font-bold text-lg">פיקוח מקצועי חוסך אלפי שקלים</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row border border-slate-200">
             <div className="lg:w-1/2 bg-slate-900 p-12 lg:p-24 text-white relative overflow-hidden">
@@ -577,7 +601,7 @@ export default function App() {
                     </div>
                     <div>
                       <div className="technical-label">Phone</div>
-                      <a href={`tel:${PHONE_NUMBER}`} className="text-3xl font-black hover:text-accent transition-colors">{PHONE_NUMBER}</a>
+                      <a href={`tel:${PHONE_NUMBER}`} className="text-3xl font-black hover:text-accent transition-colors outline-none">{PHONE_NUMBER}</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-8">
@@ -629,6 +653,19 @@ export default function App() {
                   </div>
                 </div>
                 <div className="border-b-2 border-slate-100 focus-within:border-accent transition-colors py-2">
+                  <label className="technical-label">Service</label>
+                  <select 
+                    required
+                    className="w-full bg-transparent border-none focus:ring-0 text-xl font-black p-0"
+                    value={formData.service}
+                    onChange={(e) => setFormData({...formData, service: e.target.value})}
+                  >
+                    <option value="">בחר שירות</option>
+                    {servicesData.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
+                    <option value="אחר">אחר</option>
+                  </select>
+                </div>
+                <div className="border-b-2 border-slate-100 focus-within:border-accent transition-colors py-2">
                   <label className="technical-label">Message</label>
                   <textarea 
                     rows={3}
@@ -638,8 +675,8 @@ export default function App() {
                     onChange={(e) => setFormData({...formData, message: e.target.value})}
                   ></textarea>
                 </div>
-                <button type="submit" className="btn-primary w-full py-6 text-2xl uppercase tracking-tighter">
-                  שלח הודעה בוואטסאפ
+                <button type="submit" className="btn-primary w-full py-6 text-2xl uppercase tracking-tighter outline-none">
+                  שלח הודעה
                 </button>
               </form>
             </div>
@@ -650,9 +687,12 @@ export default function App() {
       <footer className="bg-slate-900 text-white py-16">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
-            <div className="text-3xl font-black tracking-tighter">
-              OVER <span className="text-accent">הנדסה</span>
-            </div>
+            <img 
+              src="https://lh3.googleusercontent.com/u/0/d/1VzP5uKM2xi2LmxDqE-AIvzI68uhL-LXv" 
+              alt="OVER הנדסה" 
+              className="h-20 w-auto"
+              referrerPolicy="no-referrer"
+            />
             <div className="flex gap-8">
               {navLinks.map(link => (
                 <a key={link.name} href={link.href} className="text-slate-400 hover:text-white transition-colors">

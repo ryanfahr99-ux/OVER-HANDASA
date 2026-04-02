@@ -11,12 +11,29 @@
         "role": { "type": "string", "description": "The user's role." }
       },
       "required": ["uid", "name", "email", "role"]
+    },
+    "ContactSubmission": {
+      "title": "ContactSubmission",
+      "description": "Represents a contact form submission.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The user's name." },
+        "phone": { "type": "string", "description": "The user's phone number." },
+        "service": { "type": "string", "description": "The selected service." },
+        "message": { "type": "string", "description": "The user's message." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Submission timestamp." }
+      },
+      "required": ["name", "phone", "service", "message", "createdAt"]
     }
   },
   "firestore": {
     "/users/{userId}": {
       "schema": { "$ref": "UserProfile" },
       "description": "User profiles collection."
+    },
+    "/contacts/{contactId}": {
+      "schema": { "$ref": "ContactSubmission" },
+      "description": "Contact form submissions collection."
     }
   }
 }

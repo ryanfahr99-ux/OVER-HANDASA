@@ -76,5 +76,10 @@ service cloud.firestore {
                       ((isOwner(userId) && request.resource.data.role == resource.data.role) || isAdmin());
       allow delete: if isAdmin();
     }
+
+    match /contacts/{contactId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
   }
 }
