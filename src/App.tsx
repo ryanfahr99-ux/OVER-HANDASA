@@ -73,6 +73,14 @@ const servicesData: Service[] = [
     shortDesc: "ליווי מקצועי בפרויקטים פרטיים — כדי לוודא שהעבודה מצוינת ברמה גבוהה, בזמן ובאיכות.",
     fullDesc: "בנייה או שיפוץ ללא פיקוח מקצועי עלולים להוביל לליקויים, עיכובים ובלת'מים. אנו מספקים שירותי פיקוח ובקרת איכות לאורך כל שלבי הפרויקט — משלב התכנון ועד למסירה — תוך שמירה על סטנדרטים גבוהים, הקפדה על ביצוע נכון ומניעת טעויות בשטח.",
     mainImage: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    id: "turnkey",
+    title: "ביצוע פרויקטים עד המפתח",
+    icon: ClipboardCheck,
+    shortDesc: "ניהול וביצוע מלא של פרויקטי בנייה ושיפוץ, מהתכנון ועד למסירת נכס מוכן למגורים.",
+    fullDesc: "ניהול וביצוע פרויקט בנייה או שיפוץ דורש ניסיון, מקצועיות ושליטה מלאה בכל שלבי העבודה. אנו מציעים שירות כולל של ביצוע פרויקטים 'עד המפתח' — משלב התכנון, דרך ניהול הקבלנים והעבודות ועד למסירה מלאה של נכס מוכן למגורים.\n✔ ניהול כולל של הפרויקט\n✔ עבודה עם בעלי מקצוע מובילים\n✔ עמידה בזמנים ובתקציב\n✔ תוצאה איכותית ברמת גימור גבוהה",
+    mainImage: "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=80&w=800",
   }
 ];
 
@@ -299,7 +307,7 @@ export default function App() {
               </div>
               
               <h1 className="text-4xl md:text-[6rem] font-black text-white leading-[1.1] mb-6 tracking-tighter">
-                בדיקות הנדסיות, איתור נזילות ושמאות נזקי רכוש
+                הנדסה ובדק בית, נזקי מים, פיקוח ובניה, שמאות רכוש.
               </h1>
               
               <div className="flex flex-col md:flex-row gap-6 items-start mb-8">
@@ -431,7 +439,7 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {servicesData.map((service, idx) => (
               <motion.div 
                 key={service.id}
@@ -568,33 +576,7 @@ export default function App() {
           </div>
         </div>
       </section>
-      {/* Tips Section */}
-      <section id="tips" className="py-24 bg-white text-slate-900">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <div className="technical-label text-accent">Professional Insights</div>
-            <h3 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[1.1]">טיפים מקצועיים <br /><span className="text-slate-900/60">לשקט נפשי בבית.</span></h3>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: "בדק בית לפני קנייה", text: "אל תסתפקו במראה עיניים. בדק בית מקצועי יחשוף ליקויים סמויים ויחסוך לכם עשרות אלפי שקלים במשא ומתן.", icon: ShieldCheck },
-              { title: "ציוד הנדסי מתקדם", text: "שימוש בציוד טכנולוגי מתקדם (כמו מצלמות תרמיות, מדי לחות וסורקי קירות) הוא קריטי לאבחון מדויק של כשלים מבניים.", icon: Calculator },
-              { title: "פיקוח הנדסי בשיפוץ", text: "קבלן מבצע הוא לא מפקח. פיקוח הנדסי חיצוני מבטיח שהעבודה מתבצעת לפי התקנים, בלוחות זמנים ובאיכות ללא פשרות.", icon: HardHat },
-              { title: "תיעוד משפטי קביל", text: "חוות דעת הנדסית מקצועית היא מסמך משפטי קביל בבתי משפט. תיעוד נכון של ליקויים הוא המפתח להגנה על הזכויות שלכם.", icon: Scale }
-            ].map((tip, idx) => (
-              <div key={idx} className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:border-accent transition-all group shadow-sm hover:shadow-lg flex flex-col">
-                <div className="w-14 h-14 rounded-2xl bg-slate-900 text-accent flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-white transition-all">
-                  <tip.icon size={28} />
-                </div>
-                <h4 className="text-xl font-black mb-4 tracking-tight leading-tight">{tip.title}</h4>
-                <p className="text-slate-600 leading-relaxed text-sm flex-grow">{tip.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       <section id="contact" className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row border border-slate-200">
@@ -629,7 +611,7 @@ export default function App() {
                     </div>
                     <div>
                       <div className="technical-label">Location</div>
-                      <div className="text-2xl font-black">מהצפון עד המרכז</div>
+                      <div className="text-2xl font-black">פריסה ארצית</div>
                     </div>
                   </div>
                 </div>
