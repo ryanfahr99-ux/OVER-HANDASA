@@ -1,0 +1,22 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Represents a user profile.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The user's unique ID." },
+        "name": { "type": "string", "description": "The user's name." },
+        "email": { "type": "string", "description": "The user's email." },
+        "role": { "type": "string", "description": "The user's role." }
+      },
+      "required": ["uid", "name", "email", "role"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "UserProfile" },
+      "description": "User profiles collection."
+    }
+  }
+}
