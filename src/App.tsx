@@ -101,16 +101,18 @@ export default function App() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form submitted, attempting to save to Firestore...");
     try {
       await addDoc(collection(db, 'contacts'), {
         ...formData,
         createdAt: new Date()
       });
-      alert('ההודעה נשלחה בהצלחה!');
+      console.log("Data saved successfully!");
+      alert('הפרטים התקבלו בהצלחה! ניצור איתך קשר בהקדם.');
       setFormData({ name: '', phone: '', service: '', message: '' });
     } catch (error) {
-      console.error(error);
-      alert('שגיאה בשליחת ההודעה.');
+      console.error("Error saving to Firestore:", error);
+      alert('שגיאה בשליחת ההודעה. אנא נסה שוב מאוחר יותר.');
     }
   };
 
@@ -177,7 +179,7 @@ export default function App() {
 
       {/* Header */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-[110] transition-all duration-300 ${(scrolled && !isMenuOpen) ? 'glass-header py-3' : 'bg-transparent py-6'}`}
+        className={`fixed top-0 left-0 right-0 z-[110] transition-all duration-300 ${(scrolled && !isMenuOpen) ? 'glass-header py-2' : 'bg-transparent py-4'}`}
         id="main-header"
       >
         <div className="container mx-auto px-6 flex items-center justify-between">
@@ -185,7 +187,7 @@ export default function App() {
             <img 
             src="https://lh3.googleusercontent.com/u/0/d/1VzP5uKM2xi2LmxDqE-AIvzI68uhL-LXv" 
             alt="OVER הנדסה" 
-            className={`h-16 md:h-24 w-auto transition-all ${(scrolled && !isMenuOpen) ? '' : 'brightness-0 invert drop-shadow-md'}`}
+            className={`h-12 md:h-24 w-auto transition-all ${(scrolled && !isMenuOpen) ? '' : 'brightness-0 invert drop-shadow-md'}`}
             referrerPolicy="no-referrer"
             />
           </div>
@@ -264,7 +266,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* Hero Section */}
-      <section id="home" className="hero-section min-h-[80vh] flex items-center pt-24 relative overflow-hidden">
+      <section id="home" className="hero-section min-h-[80vh] flex items-center pt-16 relative overflow-hidden">
         {/* Background Image */}
         <img 
           src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000" 
@@ -295,47 +297,44 @@ export default function App() {
                 </span>
               </div>
               
-              <h1 className="text-5xl md:text-[6rem] font-black text-white leading-[1.1] mb-6 tracking-tighter">
-                בדיקות הנדסיות, איתור נזילות ושמאות נזקי רכוש — <br />
-                <span className="text-accent">עם אחריות, ניסיון ואמינות.</span>
+              <h1 className="text-4xl md:text-[6rem] font-black text-white leading-[1.1] mb-6 tracking-tighter">
+                בדיקות הנדסיות, איתור נזילות ושמאות נזקי רכוש
               </h1>
               
-              <div className="flex flex-col md:flex-row gap-8 items-start mb-10">
+              <div className="flex flex-col md:flex-row gap-6 items-start mb-8">
                 <div className="max-w-xl">
-                  <p className="text-xl md:text-2xl text-slate-200 leading-tight font-light pr-8 py-2">
-                    ליווי מקצועי לרוכשי דירות, בעלי נכסים ומשפצים — משלב הבדיקה ועד פתרון מלא בשטח.
+                  <p className="text-lg md:text-2xl text-slate-200 leading-tight font-light py-2">
+                    פתרונות הנדסיים מקיפים לכל בית: מבדק בית ואיתור נזילות ועד שמאות נזקי רכוש ופיקוח בנייה. שירות מקצועי ובלתי מתפשר, עם חוות דעת הנדסיות מפורטות לפי התקנים וקבילות בבתי משפט.
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-8 border-r border-white/10 pr-8">
+                <div className="grid grid-cols-2 gap-6 border-r border-white/10 pr-4">
                   <div>
-                    <div className="technical-label">Experience</div>
-                    <div className="text-4xl font-black text-white">30+</div>
+                    <div className="text-3xl font-black text-white">30+</div>
                     <div className="text-slate-400 text-xs font-bold uppercase">שנות ניסיון</div>
                   </div>
                   <div>
-                    <div className="technical-label">Precision</div>
-                    <div className="text-4xl font-black text-white">100%</div>
+                    <div className="text-3xl font-black text-white">100%</div>
                     <div className="text-slate-400 text-xs font-bold uppercase">דיוק הנדסי</div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-16">
                 <a 
                   href={`tel:${PHONE_NUMBER}`}
-                  className="bg-accent text-white px-12 py-6 rounded-lg font-black text-2xl flex items-center justify-center gap-4 hover:bg-accent-hover transition-all shadow-2xl shadow-accent/40 hover:-translate-y-2"
+                  className="bg-accent text-white px-8 py-4 rounded-lg font-black text-xl flex items-center justify-center gap-3 hover:bg-accent-hover transition-all shadow-2xl shadow-accent/40"
                 >
-                  <Phone size={28} />
+                  <Phone size={24} />
                   קבלו ייעוץ ראשוני ללא התחייבות
                 </a>
                 <a 
                   href="#contact" 
                   onClick={(e) => scrollToSection(e, '#contact')}
-                  className="bg-white/5 backdrop-blur-xl border border-white/20 text-white px-12 py-6 rounded-lg font-black text-2xl flex items-center justify-center gap-4 hover:bg-white hover:text-slate-900 transition-all hover:-translate-y-2"
+                  className="bg-white/5 backdrop-blur-xl border border-white/20 text-white px-8 py-4 rounded-lg font-black text-xl flex items-center justify-center gap-3 hover:bg-white hover:text-slate-900 transition-all"
                 >
                   השארת פרטים
-                  <ClipboardCheck size={28} />
+                  <ClipboardCheck size={24} />
                 </a>
               </div>
             </motion.div>
@@ -353,20 +352,26 @@ export default function App() {
       </section>
 
       {/* About Section */}
-      <section className="py-32 bg-white relative">
-        <div className="container mx-auto px-6">
+      <section className="py-32 relative overflow-hidden">
+        <img 
+          src="https://images.unsplash.com/photo-1581092160607-ee22521dd763?auto=format&fit=crop&q=80&w=2000" 
+          alt="Engineering Background" 
+          className="absolute inset-0 w-full h-full object-cover opacity-5"
+          referrerPolicy="no-referrer"
+        />
+        <div className="container mx-auto px-6 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-24">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="lg:w-1/2 relative"
+              className="lg:w-1/2 relative my-4"
             >
               <div className="relative z-10">
                 <img 
-                  src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1000" 
+                  src="https://images.unsplash.com/photo-1590674899484-d56419821d3d?auto=format&fit=crop&q=80&w=1000" 
                   alt="Civil Engineering Professional" 
-                  className="rounded-lg"
+                  className="rounded-lg shadow-2xl"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -379,7 +384,7 @@ export default function App() {
               viewport={{ once: true }}
               className="lg:w-1/2"
             >
-              <div className="technical-label">About the Company</div>
+              <div className="technical-label">אודות החברה</div>
               <h2 className="text-5xl md:text-7xl font-black mb-10 text-slate-900 leading-[1.1]">
                 OVER הנדסה <br />
                 <span className="text-accent">העיניים שלכם בשטח.</span>
@@ -417,9 +422,8 @@ export default function App() {
       {/* Services Section */}
       <section id="services" className="py-16 bg-slate-900 text-white relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-12">
             <div className="max-w-3xl">
-              <div className="technical-label text-accent">Our Services & Expertise</div>
               <h3 className="text-5xl md:text-8xl font-black leading-[1.1]">מומחיות <br />שחוסכת כסף.</h3>
             </div>
             <p className="text-2xl text-slate-400 max-w-md pr-8 py-2">
@@ -469,7 +473,7 @@ export default function App() {
       <section id="testimonials" className="py-16 bg-slate-50 relative overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <div className="technical-label">Client Feedback</div>
+            <div className="technical-label">לקוחות ממליצים</div>
             <h3 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[1.1]">המלצות <br /><span className="text-accent">של לקוחות.</span></h3>
             <button 
               onClick={() => setShowTestimonialModal(true)}
@@ -541,19 +545,18 @@ export default function App() {
 
           <div className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide">
             {[
-              { name: "ישראל כהן", text: "צוות המומחים הגיע לבדוק את הדירה החדשה שקנינו. המקצועיות שלהם פשוט מדהימה. הם מצאו דברים שאף אחד אחר לא ראה." },
-              { name: "מיכל לוי", text: "שירות אדיב, מהיר ומקצועי ביותר. הדוח שקיבלנו היה מפורט מאוד ועזר לנו המון מול הקבלן." },
-              { name: "דוד אברהם", text: "ממליץ בחום על OVER הנדסה. ניסיון של שנים שרואים בכל מילה ובכל בדיקה. שקט נפשי אמיתי." },
-              { name: "אבי כהן", text: "שירות מעולה, עמדו בלוחות הזמנים וסיפקו עבודה ברמה הכי גבוהה שיש." },
-              { name: "שרה לוי", text: "הם הצילו אותנו מנזילה נסתרת שגרמה להרס בבית. תודה רבה על המקצועיות!" }
+              { name: "ישראל כהן", text: "הייתה לנו נזילה סמויה בקיר שלא הבנו מאיפה היא מגיעה. הצוות של OVER הנדסה הגיע עם ציוד מתקדם, איתר את הבעיה תוך דקות וחסך לנו המון כסף על שיפוצים מיותרים. שירות מקצועי ואישי." },
+              { name: "מיכל לוי", text: "לפני שקנינו את הדירה, הזמנו אותם לבדק בית. הם מצאו ליקויים שלא היינו חולמים לבדוק בעצמנו. בזכות הדוח המפורט שלהם, הקבלן נאלץ לתקן הכל לפני המסירה. שווה כל שקל." },
+              { name: "דוד אברהם", text: "בנינו בית פרטי ולקחנו את OVER הנדסה לפיקוח. הם היו העיניים שלנו בשטח. הקפידו על כל פרט, מנעו טעויות של קבלני משנה וחסכו לנו המון כאב ראש. ממליץ בחום!" },
+              { name: "אבי כהן", text: "אמינות זה שם המשחק אצלם. עמדו בלוחות זמנים, היו זמינים לכל שאלה והסבירו הכל בגובה העיניים. מרגישים שיש על מי לסמוך." },
+              { name: "רונית ששון", text: "הזמנתי אותם לשמאות נזקי רכוש אחרי הצפה. הם עשו עבודה יסודית, הפיקו דוח מקצועי שהתקבל ללא עוררין על ידי חברת הביטוח. פשוט מקצוענים." },
+              { name: "יוסי לוי", text: "פרויקט שיפוץ מורכב שהפך לחוויה טובה בזכות הפיקוח של OVER הנדסה. הם מנעו מאיתנו טעויות יקרות ודאגו שהקבלן יעבוד לפי התקנים." },
+              { name: "אורית גולן", text: "השירות הכי טוב שקיבלתי בתחום הבנייה. זמינים, אדיבים ומקצועיים. אין ספק שאפנה אליהם שוב בעתיד." }
             ].map((t, i) => (
               <motion.div 
                 key={i}
                 className="bg-white p-8 border border-slate-200 flex-shrink-0 w-80 snap-start"
               >
-                <div className="flex gap-1 mb-4 text-accent">
-                  {[1, 2, 3, 4, 5].map(s => <Star key={s} size={14} fill="currentColor" />)}
-                </div>
                 <p className="text-md mb-6 text-slate-600 leading-relaxed italic">"{t.text}"</p>
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-[2px] bg-slate-900"></div>
@@ -565,22 +568,28 @@ export default function App() {
         </div>
       </section>
       {/* Tips Section */}
-      <section id="tips" className="py-20 bg-slate-100">
+      <section id="tips" className="py-24 bg-white text-slate-900">
         <div className="container mx-auto px-6">
-          <h3 className="text-4xl font-black mb-12 text-center">טיפים חשובים</h3>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-              <CheckCircle2 className="text-accent mb-4" size={32} />
-              <p className="font-bold text-lg">אל תותרו על בדק בית לפני קניית דירה</p>
-            </div>
-            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-              <CheckCircle2 className="text-accent mb-4" size={32} />
-              <p className="font-bold text-lg">נזילה שלא מאובחנת נכון תחזור שוב</p>
-            </div>
-            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-              <CheckCircle2 className="text-accent mb-4" size={32} />
-              <p className="font-bold text-lg">פיקוח מקצועי חוסך אלפי שקלים</p>
-            </div>
+          <div className="text-center mb-16">
+            <div className="technical-label text-accent">Professional Insights</div>
+            <h3 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[1.1]">טיפים מקצועיים <br /><span className="text-slate-900/60">לשקט נפשי בבית.</span></h3>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "בדק בית לפני קנייה", text: "אל תסתפקו במראה עיניים. בדק בית מקצועי יחשוף ליקויים סמויים ויחסוך לכם עשרות אלפי שקלים במשא ומתן.", icon: ShieldCheck },
+              { title: "ציוד הנדסי מתקדם", text: "שימוש בציוד טכנולוגי מתקדם (כמו מצלמות תרמיות, מדי לחות וסורקי קירות) הוא קריטי לאבחון מדויק של כשלים מבניים.", icon: Calculator },
+              { title: "פיקוח הנדסי בשיפוץ", text: "קבלן מבצע הוא לא מפקח. פיקוח הנדסי חיצוני מבטיח שהעבודה מתבצעת לפי התקנים, בלוחות זמנים ובאיכות ללא פשרות.", icon: HardHat },
+              { title: "תיעוד משפטי קביל", text: "חוות דעת הנדסית מקצועית היא מסמך משפטי קביל בבתי משפט. תיעוד נכון של ליקויים הוא המפתח להגנה על הזכויות שלכם.", icon: Scale }
+            ].map((tip, idx) => (
+              <div key={idx} className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:border-accent transition-all group shadow-sm hover:shadow-lg flex flex-col">
+                <div className="w-14 h-14 rounded-2xl bg-slate-900 text-accent flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-white transition-all">
+                  <tip.icon size={28} />
+                </div>
+                <h4 className="text-xl font-black mb-4 tracking-tight leading-tight">{tip.title}</h4>
+                <p className="text-slate-600 leading-relaxed text-sm flex-grow">{tip.text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -591,7 +600,7 @@ export default function App() {
             <div className="lg:w-1/2 bg-slate-900 p-12 lg:p-24 text-white relative overflow-hidden">
               <div className="hero-grid opacity-10"></div>
               <div className="relative z-10">
-                <div className="technical-label text-accent">Contact</div>
+                <div className="technical-label text-accent">צור קשר</div>
                 <h3 className="text-5xl md:text-7xl font-black mb-16 leading-none">בואו נדבר <br />הנדסה.</h3>
                 
                 <div className="space-y-12">
