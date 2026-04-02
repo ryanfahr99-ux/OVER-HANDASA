@@ -47,7 +47,7 @@ const servicesData: Service[] = [
     title: "איתור ואבחון נזקי מים",
     icon: Droplets,
     shortDesc: "אבחון מדויק של מקור הנזילה — איטום או אינסטלציה — עם המלצות לתיקון ממוקדות.",
-    fullDesc: "נזקי מים הם מהתקלות המורכבות והיקרות לטיפול הראשון — חשוב לאבחן אותן בצורה מדויקת כבר מהשלב. אנו מתמחים באיתור מקור נזילות, בעיות איטום וכשלים במערכות אינסטלציה, תוך שימוש בגישה מקצועית ושיטתית שמונעת ניסויים וטעייה מיותר. השירות כולל אבחון בשטח, ניתוח מקור התקלה והמלצות לפתרון יעיל וחסכוני.",
+    fullDesc: "נזקי מים הם מהתקלות המורכבות והיקרות לטיפול  — חשוב לאבחן אותן בצורה מדויקת כבר מהשלב הראשון. אנו מתמחים באיתור מקור נזילות, בעיות איטום וכשלים במערכות אינסטלציה, תוך שימוש בגישה מקצועית ושיטתית שמונעת ניסויים וטעייה מיותר. השירות כולל אבחון בשטח, ניתוח מקור התקלה והמלצות לפתרון יעיל וחסכוני.",
     mainImage: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
   },
   {
@@ -55,7 +55,7 @@ const servicesData: Service[] = [
     title: "בדק בית וחוות דעת הנדסית",
     icon: ShieldCheck,
     shortDesc: "בדיקות מקצועיות לדירות חדשות ויד שנייה, כולל איתור ליקויי בנייה והפקת דוח הנדסי מפורט וברור.",
-    fullDesc: "רכישת דירה היא אחת ההחלטות הכלכליות והאקטיביות ביותר בעולם — ואנחנו כאן כדי להבטיח שהיא נעשית בצורה בטוחה ונכונה. אנו מספקים שירותי בדק בית מקיפים לדירות חדשות ויד שנייה, כוללות איתור ליקויי בנייה, בדיקות מערכות (אינסטלציה, איטום, ריצוף, חשמל ועוד) והפקת חוות דעת הנדסית מקצועית ומפורטת. הדוחות נערכים בצורה ברורה ומדויקת, ויכולים לשמש אתכם מול קבלנים, יזמים ואף בהליכים משפטיים בתנאי הצורך.",
+    fullDesc: "קונים דירה או משפצים? אל תתפשרו על הביטחון שלכם. אנו מבצעים בדק בית מקיף לדירות חדשות ויד שנייה, מאתרים ליקויים ובודקים מערכות. תקבלו חוות דעת הנדסית מקצועית ומפורטת, שתעמוד לצידכם מול קבלנים, יזמים ובכל הליך משפטי נדרש.",
     mainImage: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&q=80&w=800",
   },
   {
@@ -84,6 +84,7 @@ export default function App() {
   const [testimonialName, setTestimonialName] = useState("");
   const [testimonialText, setTestimonialText] = useState("");
   const [testimonialSubmitted, setTestimonialSubmitted] = useState(false);
+  const [showContactSuccess, setShowContactSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -108,7 +109,7 @@ export default function App() {
         createdAt: new Date()
       });
       console.log("Data saved successfully!");
-      alert('הפרטים התקבלו בהצלחה! ניצור איתך קשר בהקדם.');
+      setShowContactSuccess(true);
       setFormData({ name: '', phone: '', service: '', message: '' });
     } catch (error) {
       console.error("Error saving to Firestore:", error);
@@ -352,7 +353,7 @@ export default function App() {
       </section>
 
       {/* About Section */}
-      <section className="py-32 relative overflow-hidden">
+      <section className="py-12 md:py-32 relative overflow-hidden">
         <img 
           src="https://images.unsplash.com/photo-1581092160607-ee22521dd763?auto=format&fit=crop&q=80&w=2000" 
           alt="Engineering Background" 
@@ -360,18 +361,18 @@ export default function App() {
           referrerPolicy="no-referrer"
         />
         <div className="container mx-auto px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-24">
+          <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-24">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="lg:w-1/2 relative my-4"
+              className="lg:w-1/2 relative w-full"
             >
               <div className="relative z-10">
                 <img 
-                  src="https://images.unsplash.com/photo-1590674899484-d56419821d3d?auto=format&fit=crop&q=80&w=1000" 
+                  src="https://lh3.googleusercontent.com/d/1IgXaikWtZ8H_Drfa6GWpqbLNUBtTncMS" 
                   alt="Civil Engineering Professional" 
-                  className="rounded-lg shadow-2xl"
+                  className="w-full h-auto object-cover shadow-2xl rounded-lg"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -716,6 +717,22 @@ export default function App() {
         </div>
       </footer>
 
+      {/* Contact Success Modal */}
+      {showContactSuccess && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-6">
+          <div className="bg-white p-8 rounded-2xl w-full max-w-md shadow-2xl text-center">
+            <h4 className="text-2xl font-black mb-6">תודה רבה!</h4>
+            <p className="mb-6">הפרטים התקבלו בהצלחה. ניצור איתך קשר בהקדם.</p>
+            <button 
+              onClick={() => setShowContactSuccess(false)}
+              className="bg-slate-900 text-white px-8 py-2 rounded-full font-bold hover:bg-slate-800 transition-all"
+            >
+              סגור
+            </button>
+          </div>
+        </div>
+      )}
+      
       {/* Service Modal */}
       <AnimatePresence>
         {selectedService && (
@@ -730,43 +747,117 @@ export default function App() {
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="bg-white rounded-2xl overflow-hidden max-w-6xl w-full max-h-[90vh] flex flex-col md:flex-row shadow-2xl"
+              className="bg-white rounded-2xl overflow-hidden max-w-4xl w-full max-h-[95vh] flex flex-col shadow-2xl"
               onClick={(e) => e.stopPropagation()}
               dir="rtl"
             >
-              {/* Image Section */}
-              <div className="md:w-1/2 relative bg-slate-100 flex items-center justify-center h-64 md:h-auto">
+              {/* Image Section - Smaller on mobile */}
+              <div className="relative bg-slate-100 h-48 md:h-64 flex-shrink-0">
                 <img 
                   src={selectedService.mainImage} 
                   alt={selectedService.title}
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
-              </div>
-
-              {/* Details Section */}
-              <div className="md:w-1/2 p-8 md:p-12 flex flex-col relative overflow-y-auto">
                 <button 
                   onClick={closeService}
-                  className="absolute top-6 left-6 text-slate-400 hover:text-slate-900 transition-colors"
+                  className="absolute top-4 left-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-slate-900 hover:bg-white transition-colors"
                 >
-                  <X size={24} />
+                  <X size={20} />
                 </button>
-                
-                <div className="w-12 h-12 bg-accent/10 text-accent rounded-lg flex items-center justify-center mb-6">
-                  <selectedService.icon size={24} />
+              </div>
+
+              {/* Details Section - Optimized for mobile */}
+              <div className="p-6 md:p-10 flex flex-col overflow-y-auto">
+                <div className="w-10 h-10 bg-accent/10 text-accent rounded-lg flex items-center justify-center mb-4">
+                  <selectedService.icon size={20} />
                 </div>
-                <h3 className="text-3xl font-black text-slate-900 mb-6 leading-tight">{selectedService.title}</h3>
-                <p className="text-slate-600 leading-relaxed mb-8 text-lg">
+                <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 leading-tight">{selectedService.title}</h3>
+                <p className="text-slate-600 leading-relaxed mb-6 text-base md:text-lg">
                   {selectedService.fullDesc}
                 </p>
                 
-                <div className="mt-auto pt-8 border-t border-slate-100">
+                <div className="mt-auto pt-4">
                   <a 
                     href={`tel:${PHONE_NUMBER}`}
-                    className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-accent transition-colors"
+                    className="w-full bg-slate-900 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-accent transition-colors"
                   >
-                    <Phone size={20} />
+                    <Phone size={18} />
+                    לייעוץ וקביעת פגישה
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Contact Success Modal */}
+      {showContactSuccess && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-6">
+          <div className="bg-white p-8 rounded-2xl w-full max-w-md shadow-2xl text-center">
+            <h4 className="text-2xl font-black mb-6">תודה רבה!</h4>
+            <p className="mb-6">הפרטים התקבלו בהצלחה. ניצור איתך קשר בהקדם.</p>
+            <button 
+              onClick={() => setShowContactSuccess(false)}
+              className="bg-slate-900 text-white px-8 py-2 rounded-full font-bold hover:bg-slate-800 transition-all"
+            >
+              סגור
+            </button>
+          </div>
+        </div>
+      )}
+      
+      {/* Service Modal */}
+      <AnimatePresence>
+        {selectedService && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-slate-900/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
+            onClick={closeService}
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              className="bg-white rounded-2xl overflow-hidden max-w-4xl w-full max-h-[95vh] flex flex-col shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+              dir="rtl"
+            >
+              {/* Image Section - Smaller on mobile */}
+              <div className="relative bg-slate-100 h-48 md:h-64 flex-shrink-0">
+                <img 
+                  src={selectedService.mainImage} 
+                  alt={selectedService.title}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <button 
+                  onClick={closeService}
+                  className="absolute top-4 left-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-slate-900 hover:bg-white transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Details Section - Optimized for mobile */}
+              <div className="p-6 md:p-10 flex flex-col overflow-y-auto">
+                <div className="w-10 h-10 bg-accent/10 text-accent rounded-lg flex items-center justify-center mb-4">
+                  <selectedService.icon size={20} />
+                </div>
+                <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 leading-tight">{selectedService.title}</h3>
+                <p className="text-slate-600 leading-relaxed mb-6 text-base md:text-lg">
+                  {selectedService.fullDesc}
+                </p>
+                
+                <div className="mt-auto pt-4">
+                  <a 
+                    href={`tel:${PHONE_NUMBER}`}
+                    className="w-full bg-slate-900 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-accent transition-colors"
+                  >
+                    <Phone size={18} />
                     לייעוץ וקביעת פגישה
                   </a>
                 </div>
