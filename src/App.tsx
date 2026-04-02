@@ -307,7 +307,7 @@ export default function App() {
               </div>
               
               <h1 className="text-4xl md:text-[6rem] font-black text-white leading-[1.1] mb-6 tracking-tighter">
-                הנדסה ובדק בית, נזקי מים, פיקוח ובניה, שמאות רכוש.
+                הנדסה ובדק בית,אבחון נזקי מים , פיקוח ובניה, שמאות רכוש.
               </h1>
               
               <div className="flex flex-col md:flex-row gap-6 items-start mb-8">
