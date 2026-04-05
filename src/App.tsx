@@ -349,7 +349,7 @@ export default function App() {
 
       <main>
         {/* Hero Section */}
-        <section id="home" className="hero-section min-h-[80vh] flex items-center pt-16 relative overflow-hidden">
+        <section id="home" className="hero-section min-h-[80vh] flex items-center pt-32 md:pt-40 relative overflow-hidden">
           {/* Background Image */}
           <img 
             src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000" 
