@@ -549,8 +549,8 @@ export default function App() {
         <section id="services" className="py-16 bg-slate-900 text-white relative overflow-hidden">
           <div className="container mx-auto px-6 relative z-10">
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-12">
-              <div className="max-w-3xl">
-                <h3 className="text-5xl md:text-8xl font-black leading-[1.1]">המומחיות שלנו.</h3>
+              <div className="max-w-3xl w-full text-center md:text-right">
+                <h3 className="text-5xl md:text-8xl font-black leading-[1.1]">המומחיות שלנו</h3>
               </div>
               <p className="text-2xl text-slate-400 max-w-md pr-8 py-2">
               </p>
