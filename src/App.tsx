@@ -128,21 +128,21 @@ const projectsData: Project[] = [
     title: "בדק בית וחוות דעת הנדסית",
     category: "בדק בית וחוות דעת הנדסית",
     description: "בדיקה מקיפה של ליקויי בנייה, הפקת דוח הנדסי מפורט וקביל בבית משפט.",
-    driveLink: "https://raw.githubusercontent.com/ryanfahr99-ux/OVER-HANDASA/main/assets/PDF.pdf"
+    driveLink: "https://raw.githubusercontent.com/ryanfahr99-ux/site-assets-/main/assets/PDF.pdf"
   },
   {
     id: "p2",
     title: "שמאות נזקי רכוש",
     category: "שמאות נזקי רכוש",
     description: "הערכת נזק מקצועית, ליווי מול חברות ביטוח ומיצוי זכויות מלא.",
-    driveLink: "https://raw.githubusercontent.com/ryanfahr99-ux/OVER-HANDASA/main/assets/PDF.pdf"
+    driveLink: "https://raw.githubusercontent.com/ryanfahr99-ux/site-assets-/main/assets/PDF.pdf"
   },
   {
     id: "p3",
     title: "בקרת איכות ופיקוח",
     category: "פיקוח ובקרת איכות",
     description: "ליווי מקצועי ובקרת איכות לאורך כל שלבי הפרויקט, למניעת טעויות וחיסכון בעלויות.",
-    driveLink: "https://raw.githubusercontent.com/ryanfahr99-ux/OVER-HANDASA/main/assets/PDF.pdf"
+    driveLink: "https://raw.githubusercontent.com/ryanfahr99-ux/site-assets-/main/assets/PDF.pdf"
   }
 ];
 
