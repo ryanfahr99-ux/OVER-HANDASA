@@ -101,14 +101,21 @@ const projectsData: Project[] = [
     driveLink: "YOUR_DRIVE_LINK_HERE",
     stages: [
       {
-        title: "שלב א': תכנון והכנה",
+        title: "בניית ספא",
         images: [
-          "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=80&w=400",
-          "https://images.unsplash.com/photo-1503387762-592dfe58ef1a?auto=format&fit=crop&q=80&w=400"
+          "https://images.unsplash.com/photo-1540555700478-4bbe2897485e?auto=format&fit=crop&q=80&w=400",
+          "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=400"
         ]
       },
       {
-        title: "שלב ב': ביצוע עבודות",
+        title: "בניית שלד לוילה",
+        images: [
+          "https://images.unsplash.com/photo-1503387762-592dfe58ef1a?auto=format&fit=crop&q=80&w=400",
+          "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=80&w=400"
+        ]
+      },
+      {
+        title: "שיפוץ בית",
         images: [
           "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=400",
           "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=400"
@@ -561,11 +568,6 @@ export default function App() {
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(#0f172a 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }}></div>
           
           <div className="container mx-auto px-6 max-w-5xl relative z-10">
-            <div className="text-center mb-24">
-              <h2 className="text-5xl md:text-7xl font-extrabold text-slate-950 tracking-tighter">הפרויקטים שלנו</h2>
-              <div className="w-24 h-1.5 bg-slate-950 mx-auto mt-8 rounded-full"></div>
-            </div>
-
             <div className="space-y-16">
               {projectsData.map((project, idx) => (
                 <motion.div 
@@ -574,12 +576,11 @@ export default function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.15, duration: 0.7 }}
-                  className="bg-white p-8 md:p-12 rounded-none border-r-4 border-slate-950 shadow-xl shadow-slate-100 cursor-pointer hover:bg-slate-50 transition-colors"
-                  onClick={() => setSelectedProject(project)}
+                  className={`bg-white p-8 md:p-12 rounded-none border-r-4 border-slate-950 shadow-xl shadow-slate-100 ${project.id === 'p4' ? 'cursor-pointer hover:bg-slate-50 transition-colors' : ''}`}
+                  onClick={() => project.id === 'p4' && setSelectedProject(project)}
                 >
                   <div className="flex flex-col gap-8">
                     <div className="text-right">
-                      <span className="text-slate-400 font-semibold text-xs uppercase tracking-[0.2em]">{project.category}</span>
                       <h4 className="text-3xl md:text-5xl font-extrabold mt-3 mb-6 text-slate-950 tracking-tight">{project.title}</h4>
                       <p className="text-slate-600 leading-relaxed text-lg md:text-xl max-w-3xl">{project.description}</p>
                     </div>
@@ -587,15 +588,15 @@ export default function App() {
                     {project.stages && (
                       <div className="bg-slate-50 p-6 md:p-10 rounded-xl border border-slate-100">
                         <div className="space-y-8">
-                          <div className="flex gap-3 overflow-x-auto pb-2 -mx-2 px-2 md:mx-0 md:px-0">
+                          <div className="flex gap-2 overflow-x-auto pb-2 -mx-2 px-4 md:mx-0 md:px-0 scrollbar-hide">
                             {project.stages.map((stage, i) => (
                               <button
                                 key={i}
                                 onClick={(e) => { e.stopPropagation(); setActiveStages(prev => ({...prev, [project.id]: i}))}}
-                                className={`px-6 py-3 rounded-none font-semibold text-sm whitespace-nowrap transition-all border-b-2 ${
+                                className={`px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-all border-2 ${
                                   (activeStages[project.id] || 0) === i 
-                                    ? 'border-slate-950 text-slate-950' 
-                                    : 'border-transparent text-slate-400 hover:text-slate-600'
+                                    ? 'bg-slate-950 text-white border-slate-950' 
+                                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
                                 }`}
                               >
                                 {stage.title}
@@ -634,64 +635,78 @@ export default function App() {
         {/* Project Detail Modal */}
         <AnimatePresence>
           {selectedProject && (
-            <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[200] p-4 md:p-10" role="dialog" aria-modal="true">
+            <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[200] p-4 md:p-6" role="dialog" aria-modal="true">
               <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                className="bg-white p-8 md:p-12 rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl relative"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 50 }}
+                className="bg-white rounded-3xl w-full max-w-5xl max-h-[90vh] overflow-hidden shadow-2xl relative flex flex-col"
               >
                 <button 
                   onClick={() => setSelectedProject(null)}
-                  className="absolute top-6 left-6 text-slate-400 hover:text-slate-950"
+                  className="absolute top-6 right-6 z-10 p-2 bg-white/50 backdrop-blur-md rounded-full text-slate-900 hover:bg-white transition-all"
                   aria-label="סגור"
                 >
-                  <X size={32} />
+                  <X size={28} />
                 </button>
-                <h3 className="text-4xl font-extrabold mb-8 text-slate-950">{selectedProject.title}</h3>
-                <p className="text-slate-600 text-lg mb-10">{selectedProject.description}</p>
                 
-                {selectedProject.stages ? (
-                  <div className="space-y-10">
-                    {selectedProject.stages.map((stage, i) => {
-                      // Flatten all images for this project for navigation
-                      const allProjectImages = selectedProject.stages!.flatMap(s => s.images);
-                      // Calculate global index for this image
-                      const stageImagesOffset = selectedProject.stages!.slice(0, i).reduce((acc, s) => acc + s.images.length, 0);
-                      
-                      return (
-                        <div key={i}>
-                          <h4 className="text-2xl font-bold mb-4">{stage.title}</h4>
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            {stage.images.map((img, j) => (
-                              <img 
-                                key={j} 
-                                src={img} 
-                                alt={`${stage.title} ${j+1}`} 
-                                className="rounded-xl h-48 w-full object-cover cursor-pointer hover:opacity-90 transition-opacity" 
-                                referrerPolicy="no-referrer"
-                                onClick={() => setFullscreenImage({url: img, index: stageImagesOffset + j, allImages: allProjectImages})}
-                              />
-                            ))}
+                <div className="p-8 md:p-12 overflow-y-auto">
+                  <div className="mb-10 border-b border-slate-100 pb-8">
+                    <h3 className="text-4xl md:text-5xl font-black text-slate-950 tracking-tighter mb-4">{selectedProject.title}</h3>
+                    <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl">{selectedProject.description}</p>
+                  </div>
+                  
+                  {selectedProject.stages ? (
+                    <div className="space-y-16">
+                      {selectedProject.stages.map((stage, i) => {
+                        const allProjectImages = selectedProject.stages!.flatMap(s => s.images);
+                        const stageImagesOffset = selectedProject.stages!.slice(0, i).reduce((acc, s) => acc + s.images.length, 0);
+                        
+                        return (
+                          <div key={i}>
+                            <h4 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                              <span className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-sm font-black">{i + 1}</span>
+                              {stage.title}
+                            </h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                              {stage.images.map((img, j) => (
+                                <div key={j} className="group relative overflow-hidden rounded-2xl aspect-[4/3]">
+                                  <img 
+                                    src={img} 
+                                    alt={`${stage.title} ${j+1}`} 
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 cursor-pointer" 
+                                    referrerPolicy="no-referrer"
+                                    onClick={() => setFullscreenImage({url: img, index: stageImagesOffset + j, allImages: allProjectImages})}
+                                  />
+                                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                    <span className="text-white font-bold bg-black/50 px-4 py-2 rounded-full text-sm backdrop-blur-sm">הגדל</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : selectedProject.images && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {selectedProject.images.map((img, i) => (
+                        <div key={i} className="group relative overflow-hidden rounded-2xl aspect-[4/3]">
+                          <img 
+                            src={img} 
+                            alt={`${selectedProject.title} ${i+1}`} 
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 cursor-pointer" 
+                            referrerPolicy="no-referrer"
+                            onClick={() => setFullscreenImage({url: img, index: i, allImages: selectedProject.images!})}
+                          />
+                          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                            <span className="text-white font-bold bg-black/50 px-4 py-2 rounded-full text-sm backdrop-blur-sm">הגדל</span>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                ) : selectedProject.images && (
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {selectedProject.images.map((img, i) => (
-                      <img 
-                        key={i} 
-                        src={img} 
-                        alt={`${selectedProject.title} ${i+1}`} 
-                        className="rounded-xl h-48 w-full object-cover cursor-pointer hover:opacity-90 transition-opacity" 
-                        referrerPolicy="no-referrer"
-                        onClick={() => setFullscreenImage({url: img, index: i, allImages: selectedProject.images!})}
-                      />
-                    ))}
-                  </div>
-                )}
+                      ))}
+                    </div>
+                  )}
+                </div>
               </motion.div>
             </div>
           )}
