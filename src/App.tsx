@@ -987,7 +987,7 @@ export default function App() {
               </div>
 
               {/* Form */}
-              <div className="lg:w-2/3 p-10 md:p-16 bg-white">
+              <div id="contact-form-section" className="lg:w-2/3 p-10 md:p-16 bg-white">
                 <form ref={form} onSubmit={handleFormSubmit} className="space-y-8">
                   <div className="grid md:grid-cols-2 gap-8">
                     <input 
