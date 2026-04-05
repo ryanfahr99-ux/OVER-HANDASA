@@ -422,8 +422,8 @@ export default function App() {
                   </span>
                 </div>
                 
-                <h1 className="text-4xl md:text-[6rem] font-black text-white leading-[1.1] mb-6 tracking-tighter">
-                  הנדסה ובדק בית,אבחון נזקי מים , פיקוח ובניה, שמאות רכוש.
+                <h1 className="text-3xl md:text-7xl font-black text-white leading-relaxed md:leading-[1.1] mb-6 tracking-tight">
+                   בדק בית, אבחון נזקי מים, פיקוח בנייה, ושמאות רכוש.
                 </h1>
                 
                 <div className="flex flex-col md:flex-row gap-6 items-start mb-8">
