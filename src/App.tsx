@@ -962,26 +962,26 @@ export default function App() {
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto bg-white/10 backdrop-blur-xl rounded-[2rem] border border-white/10 overflow-hidden flex flex-col lg:flex-row">
               {/* Contact Details */}
-              <div className="lg:w-1/3 p-12 lg:p-16 lg:pl-12 text-white">
+              <div className="lg:w-2/5 p-12 lg:p-16 lg:pl-12 text-white">
                 <h3 className="text-4xl font-black mb-12 tracking-tight">צור קשר</h3>
-                <div className="space-y-8">
-                  <div className="flex items-center gap-4">
+                <div className="space-y-8 pl-8">
+                  <div className="flex items-center justify-start gap-4 text-right">
                     <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-accent flex-shrink-0">
                       <Phone size={20} />
                     </div>
-                    <a href={`tel:${PHONE_NUMBER}`} className="text-lg md:text-2xl font-bold hover:text-accent transition-colors whitespace-nowrap">{PHONE_NUMBER}</a>
+                    <a href={`tel:${PHONE_NUMBER}`} className="text-lg md:text-2xl font-bold hover:text-accent transition-colors text-right" style={{ direction: 'ltr' }}>{PHONE_NUMBER}</a>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-start gap-4 text-right">
                     <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-accent flex-shrink-0">
                       <Mail size={20} />
                     </div>
-                    <a href="mailto:Samehover@gmail.com" className="text-lg md:text-2xl font-bold hover:text-accent transition-colors whitespace-nowrap">Samehover@gmail.com</a>
+                    <a href="mailto:Samehover@gmail.com" className="text-lg md:text-2xl font-bold hover:text-accent transition-colors text-right" style={{ direction: 'ltr' }}>Samehover@gmail.com</a>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-start gap-4 text-right">
                     <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-accent flex-shrink-0">
                       <MapPin size={20} />
                     </div>
-                    <div className="text-lg md:text-2xl font-bold whitespace-nowrap">פריסה ארצית</div>
+                    <div className="text-lg md:text-2xl font-bold text-right">פריסה ארצית</div>
                   </div>
                 </div>
               </div>
@@ -1012,6 +1012,7 @@ export default function App() {
                   >
                     <option value="">בחר שירות</option>
                     {servicesData.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
+                    <option value="אחר">אחר</option>
                   </select>
                   <textarea 
                     name="message"
