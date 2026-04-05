@@ -1040,9 +1040,9 @@ export default function App() {
               className="h-20 w-auto"
               referrerPolicy="no-referrer"
             />
-            <nav className="flex gap-8" aria-label="תפריט תחתון">
+            <nav className="flex flex-row gap-2 md:gap-8 text-xs md:text-base" aria-label="תפריט תחתון">
               {navLinks.map(link => (
-                <a key={link.name} href={link.href} className="text-slate-400 hover:text-white transition-colors">
+                <a key={link.name} href={link.href} className="text-slate-400 hover:text-white transition-colors whitespace-nowrap">
                   {link.name}
                 </a>
               ))}
