@@ -7,18 +7,19 @@
   
   --color-primary: #0f172a;
   --color-secondary: #334155;
-  --color-accent: #c5a059;
-  --color-accent-hover: #a68445;
+  --color-accent: #f59e0b;
+  --color-accent-hover: #d97706;
   --color-engineering-blue: #1e40af;
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   direction: rtl;
-  @apply bg-slate-50 text-slate-900 font-sans antialiased;
+  @apply bg-slate-50 text-slate-900 font-sans antialiased overflow-x-hidden;
 }
 
 .glass-header {

@@ -567,7 +567,7 @@ export default function App() {
           {/* Subtle Background Pattern */}
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(#0f172a 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }}></div>
           
-          <div className="container mx-auto px-6 max-w-5xl relative z-10">
+          <div className="container mx-auto px-4 md:px-6 max-w-5xl relative z-10">
             <div className="space-y-16">
               {projectsData.map((project, idx) => (
                 <motion.div 
@@ -576,24 +576,24 @@ export default function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.15, duration: 0.7 }}
-                  className={`bg-white p-8 md:p-12 rounded-none border-r-4 border-slate-950 shadow-xl shadow-slate-100 ${project.id === 'p4' ? 'cursor-pointer hover:bg-slate-50 transition-colors' : ''}`}
+                  className={`bg-white p-4 md:p-12 rounded-none border-r-4 border-slate-950 shadow-xl shadow-slate-100 ${project.id === 'p4' ? 'cursor-pointer hover:bg-slate-50 transition-colors' : ''}`}
                   onClick={() => project.id === 'p4' && setSelectedProject(project)}
                 >
-                  <div className="flex flex-col gap-8">
+                  <div className="flex flex-col gap-6">
                     <div className="text-right">
-                      <h4 className="text-3xl md:text-5xl font-extrabold mt-3 mb-6 text-slate-950 tracking-tight">{project.title}</h4>
-                      <p className="text-slate-600 leading-relaxed text-lg md:text-xl max-w-3xl">{project.description}</p>
+                      <h4 className="text-2xl md:text-5xl font-extrabold mt-3 mb-4 text-slate-950 tracking-tight">{project.title}</h4>
+                      <p className="text-slate-600 leading-relaxed text-base md:text-xl max-w-3xl">{project.description}</p>
                     </div>
                     
                     {project.stages && (
-                      <div className="bg-slate-50 p-6 md:p-10 rounded-xl border border-slate-100">
-                        <div className="space-y-8">
+                      <div className="bg-slate-50 p-3 md:p-10 rounded-xl border border-slate-100">
+                        <div className="space-y-4">
                           <div className="flex gap-2 overflow-x-auto pb-2 -mx-2 px-4 md:mx-0 md:px-0 scrollbar-hide">
                             {project.stages.map((stage, i) => (
                               <button
                                 key={i}
                                 onClick={(e) => { e.stopPropagation(); setActiveStages(prev => ({...prev, [project.id]: i}))}}
-                                className={`px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-all border-2 ${
+                                className={`px-4 py-2 rounded-full font-bold text-xs md:text-sm whitespace-nowrap transition-all border-2 ${
                                   (activeStages[project.id] || 0) === i 
                                     ? 'bg-slate-950 text-white border-slate-950' 
                                     : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
@@ -603,10 +603,36 @@ export default function App() {
                               </button>
                             ))}
                           </div>
-                          <div className="grid grid-cols-2 gap-4 md:gap-6">
-                            {project.stages[activeStages[project.id] || 0].images.map((img, i) => (
-                              <img key={i} src={img} alt={`${project.title} ${i+1}`} className="rounded-lg h-48 md:h-64 w-full object-cover" referrerPolicy="no-referrer" />
-                            ))}
+                          <div 
+                            className="relative overflow-hidden touch-pan-y"
+                            onTouchStart={(e) => {
+                              const touch = e.touches[0];
+                              (e.currentTarget as any)._startX = touch.clientX;
+                            }}
+                            onTouchEnd={(e) => {
+                              const touch = e.changedTouches[0];
+                              const startX = (e.currentTarget as any)._startX;
+                              const diff = startX - touch.clientX;
+                              if (Math.abs(diff) > 50) {
+                                const current = activeStages[project.id] || 0;
+                                if (diff > 0 && current < project.stages!.length - 1) {
+                                  setActiveStages(prev => ({...prev, [project.id]: current + 1}));
+                                } else if (diff < 0 && current > 0) {
+                                  setActiveStages(prev => ({...prev, [project.id]: current - 1}));
+                                }
+                              }
+                            }}
+                          >
+                            <motion.div 
+                              key={activeStages[project.id] || 0}
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              className="grid grid-cols-2 gap-2 md:gap-6"
+                            >
+                              {project.stages[activeStages[project.id] || 0].images.map((img, i) => (
+                                <img key={i} src={img} alt={`${project.title} ${i+1}`} className="rounded-lg h-32 md:h-64 w-full object-cover" referrerPolicy="no-referrer" />
+                              ))}
+                            </motion.div>
                           </div>
                         </div>
                       </div>
