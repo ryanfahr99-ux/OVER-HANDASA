@@ -3,29 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { db } from './firebase';
-import { collection, addDoc } from 'firebase/firestore';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import { 
   Phone, 
   MessageCircle, 
   CheckCircle2, 
   ShieldCheck, 
-  Search, 
   ClipboardCheck, 
-  Star, 
   Menu, 
   X, 
-  ArrowLeft,
   Mail,
   MapPin,
-  Clock,
   ChevronLeft,
-  ChevronRight,
   Droplets,
   HardHat,
-  Scale,
-  Calculator
+  Scale
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -93,12 +86,7 @@ export default function App() {
   const [testimonialText, setTestimonialText] = useState("");
   const [testimonialSubmitted, setTestimonialSubmitted] = useState(false);
   const [showContactSuccess, setShowContactSuccess] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    service: '',
-    message: ''
-  });
+  const form = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -110,17 +98,21 @@ export default function App() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted, attempting to save to Firestore...");
+    
+    if (!form.current) return;
+
     try {
-      await addDoc(collection(db, 'contacts'), {
-        ...formData,
-        createdAt: new Date()
-      });
-      console.log("Data saved successfully!");
+      await emailjs.sendForm(
+        'service_75wbi4q', 
+        'template_a9j5d4k', 
+        form.current, 
+        '--tLZtunGJ8IJphXt'
+      );
+      console.log("Email sent successfully!");
       setShowContactSuccess(true);
-      setFormData({ name: '', phone: '', service: '', message: '' });
+      form.current.reset();
     } catch (error) {
-      console.error("Error saving to Firestore:", error);
+      console.error("Error sending email:", error);
       alert('שגיאה בשליחת ההודעה. אנא נסה שוב מאוחר יותר.');
     }
   };
@@ -653,18 +645,17 @@ export default function App() {
               </div>
 
               <div id="contact-form-section" className="lg:w-1/2 p-12 lg:p-24 bg-white">
-                <form onSubmit={handleFormSubmit} className="space-y-10" aria-label="טופס יצירת קשר">
+                <form ref={form} onSubmit={handleFormSubmit} className="space-y-10" aria-label="טופס יצירת קשר">
                   <div className="grid md:grid-cols-2 gap-10">
                     <div className="border-b-2 border-slate-100 focus-within:border-accent transition-colors py-2">
                       <label htmlFor="contact-name" className="technical-label">Full Name</label>
                       <input 
                         id="contact-name"
+                        name="name"
                         type="text" 
                         required
                         className="w-full bg-transparent border-none focus:ring-0 text-xl font-black p-0"
                         placeholder="הכנס את שמך"
-                        value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
                         aria-label="שם מלא"
                       />
                     </div>
@@ -672,12 +663,11 @@ export default function App() {
                       <label htmlFor="contact-phone" className="technical-label">Phone Number</label>
                       <input 
                         id="contact-phone"
+                        name="phone"
                         type="tel" 
                         required
                         className="w-full bg-transparent border-none focus:ring-0 text-xl font-black p-0"
                         placeholder="05X-XXXXXXX"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         aria-label="מספר טלפון"
                       />
                     </div>
@@ -686,10 +676,9 @@ export default function App() {
                     <label htmlFor="contact-service" className="technical-label">Service</label>
                     <select 
                       id="contact-service"
+                      name="subject"
                       required
                       className="w-full bg-transparent border-none focus:ring-0 text-xl font-black p-0"
-                      value={formData.service}
-                      onChange={(e) => setFormData({...formData, service: e.target.value})}
                       aria-label="בחר שירות"
                     >
                       <option value="">בחר שירות</option>
@@ -701,11 +690,10 @@ export default function App() {
                     <label htmlFor="contact-message" className="technical-label">Message</label>
                     <textarea 
                       id="contact-message"
+                      name="message"
                       rows={3}
                       className="w-full bg-transparent border-none focus:ring-0 text-xl font-black p-0 resize-none"
                       placeholder="איך נוכל לעזור?"
-                      value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
                       aria-label="הודעה"
                     ></textarea>
                   </div>
