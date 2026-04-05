@@ -34,6 +34,20 @@ interface Service {
   mainImage: string;
 }
 
+interface ProjectStage {
+  title: string;
+  images: string[];
+}
+
+interface Project {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  driveLink?: string;
+  stages?: ProjectStage[];
+}
+
 const servicesData: Service[] = [
   {
     id: "moisture",
@@ -77,10 +91,58 @@ const servicesData: Service[] = [
   }
 ];
 
+const projectsData: Project[] = [
+  {
+    id: "p4",
+    title: "ביצוע פרויקטים",
+    category: "ביצוע פרויקטים עד המפתח",
+    description: "ניהול וביצוע מלא של פרויקטי בנייה ושיפוץ, מהתכנון ועד למסירת נכס מוכן למגורים.",
+    driveLink: "YOUR_DRIVE_LINK_HERE",
+    stages: [
+      {
+        title: "שלב א': תכנון והכנה",
+        images: [
+          "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=80&w=400",
+          "https://images.unsplash.com/photo-1503387762-592dfe58ef1a?auto=format&fit=crop&q=80&w=400"
+        ]
+      },
+      {
+        title: "שלב ב': ביצוע עבודות",
+        images: [
+          "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=400",
+          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=400"
+        ]
+      }
+    ]
+  },
+  {
+    id: "p1",
+    title: "בדק בית וחוות דעת הנדסית",
+    category: "בדק בית וחוות דעת הנדסית",
+    description: "בדיקה מקיפה של ליקויי בנייה, הפקת דוח הנדסי מפורט וקביל בבית משפט.",
+    driveLink: "https://drive.google.com/file/d/1NtWVWei7NNiOaZ5QjjFbxSae_cG3H2wH/view?usp=drive_link"
+  },
+  {
+    id: "p2",
+    title: "שמאות נזקי רכוש",
+    category: "שמאות נזקי רכוש",
+    description: "הערכת נזק מקצועית, ליווי מול חברות ביטוח ומיצוי זכויות מלא.",
+    driveLink: "YOUR_DRIVE_LINK_HERE"
+  },
+  {
+    id: "p3",
+    title: "בקרת איכות ופיקוח",
+    category: "פיקוח ובקרת איכות",
+    description: "ליווי מקצועי ובקרת איכות לאורך כל שלבי הפרויקט, למניעת טעויות וחיסכון בעלויות.",
+    driveLink: "YOUR_DRIVE_LINK_HERE"
+  }
+];
+
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [activeStages, setActiveStages] = useState<Record<string, number>>({});
   const [showTestimonialModal, setShowTestimonialModal] = useState(false);
   const [testimonialName, setTestimonialName] = useState("");
   const [testimonialText, setTestimonialText] = useState("");
@@ -129,6 +191,7 @@ export default function App() {
     { name: 'דף הבית', href: '#home' },
     { name: 'אודות', href: '#about' },
     { name: 'שירותים ומומחיות', href: '#services' },
+    { name: 'הפרויקטים שלנו', href: '#projects' },
     { name: 'המלצות', href: '#testimonials' },
     { name: 'צור קשר', href: '#contact' },
   ];
@@ -482,6 +545,71 @@ export default function App() {
                       <span>קרא עוד</span>
                       <ChevronLeft size={14} />
                     </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Projects Section */}
+        <section id="projects" className="py-16 bg-slate-50 relative overflow-hidden">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <div className="technical-label text-accent">הפרויקטים שלנו</div>
+              <h3 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[1.1]">דוגמאות <br /><span className="text-slate-900">לפרויקטים נבחרים.</span></h3>
+            </div>
+
+            <div className="space-y-8">
+              {projectsData.map((project, idx) => (
+                <motion.div 
+                  key={project.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all p-8"
+                >
+                  <div className="flex flex-col justify-center">
+                    <div className="text-accent font-bold text-sm uppercase tracking-widest mb-2">{project.category}</div>
+                    <h4 className="text-3xl font-black mb-4 text-slate-900">{project.title}</h4>
+                    <p className="text-slate-600 leading-relaxed mb-6 text-lg">{project.description}</p>
+                    
+                    {project.stages && project.stages.length > 0 && (
+                      <div className="mb-6">
+                        <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+                          {project.stages.map((stage, i) => (
+                            <button
+                              key={i}
+                              onClick={() => setActiveStages(prev => ({...prev, [project.id]: i}))}
+                              className={`px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap ${
+                                (activeStages[project.id] || 0) === i 
+                                  ? 'bg-accent text-white' 
+                                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                              }`}
+                            >
+                              {stage.title}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          {project.stages[activeStages[project.id] || 0].images.map((img, i) => (
+                            <img key={i} src={img} alt={`${project.title} ${project.stages![activeStages[project.id] || 0].title} ${i+1}`} className="rounded-lg h-24 w-full object-cover" referrerPolicy="no-referrer" />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {project.driveLink && (
+                      <a 
+                        href={project.driveLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-block bg-slate-900 text-white px-6 py-3 rounded-lg font-bold hover:bg-accent transition-all w-fit"
+                      >
+                        צפה בדוח המלא
+                      </a>
+                    )}
                   </div>
                 </motion.div>
               ))}
