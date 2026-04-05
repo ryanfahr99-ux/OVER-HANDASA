@@ -128,21 +128,21 @@ const projectsData: Project[] = [
     title: "בדק בית וחוות דעת הנדסית",
     category: "בדק בית וחוות דעת הנדסית",
     description: "בדיקה מקיפה של ליקויי בנייה, הפקת דוח הנדסי מפורט וקביל בבית משפט.",
-    driveLink: "https://drive.google.com/file/d/1NtWVWei7NNiOaZ5QjjFbxSae_cG3H2wH/view?usp=drive_link"
+    driveLink: "https://drive.google.com/file/d/1cont0EnFluHOCn7tvikBKC8pKhgUfxiy/view?usp=drive_link"
   },
   {
     id: "p2",
     title: "שמאות נזקי רכוש",
     category: "שמאות נזקי רכוש",
     description: "הערכת נזק מקצועית, ליווי מול חברות ביטוח ומיצוי זכויות מלא.",
-    driveLink: "YOUR_DRIVE_LINK_HERE"
+    driveLink: "https://drive.google.com/file/d/1cont0EnFluHOCn7tvikBKC8pKhgUfxiy/view?usp=drive_link"
   },
   {
     id: "p3",
     title: "בקרת איכות ופיקוח",
     category: "פיקוח ובקרת איכות",
     description: "ליווי מקצועי ובקרת איכות לאורך כל שלבי הפרויקט, למניעת טעויות וחיסכון בעלויות.",
-    driveLink: "YOUR_DRIVE_LINK_HERE"
+    driveLink: "https://drive.google.com/file/d/1cont0EnFluHOCn7tvikBKC8pKhgUfxiy/view?usp=drive_link"
   }
 ];
 
