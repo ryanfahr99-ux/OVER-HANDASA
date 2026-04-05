@@ -103,22 +103,22 @@ const projectsData: Project[] = [
       {
         title: "בניית ספא",
         images: [
-          "https://images.unsplash.com/photo-1540555700478-4bbe2897485e?auto=format&fit=crop&q=80&w=400",
-          "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=400"
+          "https://www.sharespa.co.il/cdn/shop/products/8.jpg?v=1771873473&width=1080",
+          "https://www.sharespa.co.il/cdn/shop/products/8.jpg?v=1771873473&width=1080"
         ]
       },
       {
         title: "בניית שלד לוילה",
         images: [
-          "https://images.unsplash.com/photo-1503387762-592dfe58ef1a?auto=format&fit=crop&q=80&w=400",
-          "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=80&w=400"
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGTvK0am61CjgAWbmOfmChq50BAu3nB_DZOw&s",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD3LXWBmxwezuJftwxzNAd_fhYKYzWTT97Ew&s"
         ]
       },
       {
         title: "שיפוץ בית",
         images: [
-          "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=400",
-          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=400"
+          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=800",
+          "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=80&w=800"
         ]
       }
     ]
@@ -165,8 +165,49 @@ export default function App() {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
+    
+    // Initialize activeStages
+    const initialStages: Record<string, number> = {};
+    projectsData.forEach(project => {
+      initialStages[project.id] = 0;
+    });
+    setActiveStages(initialStages);
+
+    // Initial scroll for all project image containers
+    projectsData.forEach(project => {
+      if (project.stages) {
+        const container = document.getElementById(`images-container-${project.id}`);
+        if (container) {
+          container.scrollTo({ left: 0, behavior: 'auto' });
+        }
+      }
+    });
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const stageIndex = parseInt(entry.target.getAttribute('data-stage-index') || '0');
+            const projectId = entry.target.getAttribute('data-project-id') || '';
+            setActiveStages(prev => ({...prev, [projectId]: stageIndex}));
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    document.querySelectorAll('[data-stage-index]').forEach((el) => {
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [projectsData]);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -568,6 +609,7 @@ export default function App() {
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(#0f172a 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }}></div>
           
           <div className="container mx-auto px-4 md:px-6 max-w-5xl relative z-10">
+            <h3 className="text-4xl md:text-6xl font-black mb-16 text-center text-slate-950">הפרויקטים שלנו</h3>
             <div className="space-y-16">
               {projectsData.map((project, idx) => (
                 <motion.div 
@@ -587,12 +629,22 @@ export default function App() {
                     
                     {project.stages && (
                       <div className="bg-slate-50 p-3 md:p-10 rounded-xl border border-slate-100">
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                           <div className="flex gap-2 overflow-x-auto pb-2 -mx-2 px-4 md:mx-0 md:px-0 scrollbar-hide">
                             {project.stages.map((stage, i) => (
                               <button
                                 key={i}
-                                onClick={(e) => { e.stopPropagation(); setActiveStages(prev => ({...prev, [project.id]: i}))}}
+                                id={`btn-${project.id}-${i}`}
+                                data-target-category={i}
+                                onClick={(e) => { 
+                                  e.stopPropagation(); 
+                                  const container = document.getElementById(`gallery-${project.id}`);
+                                  const firstItem = container?.querySelector(`[data-category="${i}"]`);
+                                  if (firstItem) {
+                                    firstItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                                  }
+                                  setActiveStages(prev => ({...prev, [project.id]: i}));
+                                }}
                                 className={`px-4 py-2 rounded-full font-bold text-xs md:text-sm whitespace-nowrap transition-all border-2 ${
                                   (activeStages[project.id] || 0) === i 
                                     ? 'bg-slate-950 text-white border-slate-950' 
@@ -604,35 +656,52 @@ export default function App() {
                             ))}
                           </div>
                           <div 
-                            className="relative overflow-hidden touch-pan-y"
-                            onTouchStart={(e) => {
-                              const touch = e.touches[0];
-                              (e.currentTarget as any)._startX = touch.clientX;
-                            }}
-                            onTouchEnd={(e) => {
-                              const touch = e.changedTouches[0];
-                              const startX = (e.currentTarget as any)._startX;
-                              const diff = startX - touch.clientX;
-                              if (Math.abs(diff) > 50) {
-                                const current = activeStages[project.id] || 0;
-                                if (diff > 0 && current < project.stages!.length - 1) {
-                                  setActiveStages(prev => ({...prev, [project.id]: current + 1}));
-                                } else if (diff < 0 && current > 0) {
-                                  setActiveStages(prev => ({...prev, [project.id]: current - 1}));
-                                }
-                              }
+                            id={`gallery-${project.id}`}
+                            className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4 scrollbar-hide"
+                            ref={(el) => {
+                              if (!el) return;
+                              const observer = new IntersectionObserver((entries) => {
+                                entries.forEach(entry => {
+                                  if (entry.isIntersecting) {
+                                    const category = parseInt(entry.target.getAttribute('data-category') || '0');
+                                    setActiveStages(prev => {
+                                      if (prev[project.id] !== category) {
+                                        // Find the button container and the active button
+                                        const buttonsContainer = entry.target.closest('.space-y-6')?.querySelector('.overflow-x-auto') as HTMLElement;
+                                        const activeButton = document.getElementById(`btn-${project.id}-${category}`);
+                                        
+                                        if (buttonsContainer && activeButton) {
+                                          const scrollPos = activeButton.offsetLeft - (buttonsContainer.offsetWidth / 2) + (activeButton.offsetWidth / 2);
+                                          buttonsContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
+                                        }
+                                        return {...prev, [project.id]: category};
+                                      }
+                                      return prev;
+                                    });
+                                  }
+                                });
+                              }, { root: el, rootMargin: '0px -40% 0px -40%', threshold: 0 });
+                              
+                              el.querySelectorAll('.gallery-item').forEach(item => observer.observe(item));
                             }}
                           >
-                            <motion.div 
-                              key={activeStages[project.id] || 0}
-                              initial={{ opacity: 0, x: 20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              className="grid grid-cols-2 gap-2 md:gap-6"
-                            >
-                              {project.stages[activeStages[project.id] || 0].images.map((img, i) => (
-                                <img key={i} src={img} alt={`${project.title} ${i+1}`} className="rounded-lg h-32 md:h-64 w-full object-cover" referrerPolicy="no-referrer" />
-                              ))}
-                            </motion.div>
+                            {project.stages.flatMap((stage, stageIdx) => 
+                              stage.images.map((img, imgIdx) => (
+                                <div 
+                                  key={`${stageIdx}-${imgIdx}`} 
+                                  data-category={stageIdx}
+                                  className="gallery-item flex-shrink-0 w-64 snap-center flex flex-col items-center gap-2"
+                                >
+                                  <img 
+                                    src={img} 
+                                    alt={`${stage.title} ${imgIdx+1}`} 
+                                    className="rounded-lg w-full aspect-video object-cover" 
+                                    referrerPolicy="no-referrer" 
+                                  />
+                                  <p className="text-sm font-medium text-slate-700">{stage.title}</p>
+                                </div>
+                              ))
+                            )}
                           </div>
                         </div>
                       </div>
