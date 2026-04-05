@@ -238,7 +238,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       {/* Floating WhatsApp Button */}
       <a 
         href={`https://wa.me/${WHATSAPP_NUMBER}`} 
@@ -262,7 +262,7 @@ export default function App() {
             <img 
             src="https://lh3.googleusercontent.com/u/0/d/1VzP5uKM2xi2LmxDqE-AIvzI68uhL-LXv" 
             alt="לוגו OVER הנדסה" 
-            className={`h-12 md:h-24 w-auto transition-all ${(scrolled && !isMenuOpen) ? '' : 'brightness-0 invert drop-shadow-md'}`}
+            className={`h-16 md:h-24 w-auto transition-all ${(scrolled && !isMenuOpen) ? '' : 'brightness-0 invert drop-shadow-md'}`}
             referrerPolicy="no-referrer"
             />
           </div>
