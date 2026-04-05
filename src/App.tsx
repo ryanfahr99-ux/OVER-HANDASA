@@ -822,10 +822,10 @@ export default function App() {
               {fullscreenImage.index > 0 && (
                 <button 
                   onClick={(e) => { e.stopPropagation(); setFullscreenImage({url: fullscreenImage.allImages[fullscreenImage.index - 1], index: fullscreenImage.index - 1, allImages: fullscreenImage.allImages})}}
-                  className="absolute left-6 text-white hover:text-slate-300 z-10"
+                  className="absolute right-6 text-white hover:text-slate-300 z-10"
                   aria-label="תמונה קודמת"
                 >
-                  <ChevronLeft size={40} />
+                  <ChevronLeft size={40} className="rotate-180" />
                 </button>
               )}
               
@@ -834,10 +834,10 @@ export default function App() {
               {fullscreenImage.index < fullscreenImage.allImages.length - 1 && (
                 <button 
                   onClick={(e) => { e.stopPropagation(); setFullscreenImage({url: fullscreenImage.allImages[fullscreenImage.index + 1], index: fullscreenImage.index + 1, allImages: fullscreenImage.allImages})}}
-                  className="absolute right-6 text-white hover:text-slate-300 z-10"
+                  className="absolute left-6 text-white hover:text-slate-300 z-10"
                   aria-label="תמונה הבאה"
                 >
-                  <ChevronLeft size={40} className="rotate-180" />
+                  <ChevronLeft size={40} />
                 </button>
               )}
             </div>
@@ -958,101 +958,68 @@ export default function App() {
           </div>
         </section>
         
-        <section id="contact" className="py-16 bg-white">
+        <section id="contact" className="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
           <div className="container mx-auto px-6">
-            <div className="flex flex-col lg:flex-row border border-slate-200">
-              <div className="lg:w-1/2 bg-slate-900 p-12 lg:p-24 text-white relative overflow-hidden">
-                <div className="hero-grid opacity-10"></div>
-                <div className="relative z-10">
-                  <div className="technical-label text-accent">צור קשר</div>
-                  <h3 className="text-5xl md:text-7xl font-black mb-16 leading-none">בואו נדבר <br />הנדסה.</h3>
-                  
-                  <div className="space-y-12">
-                      <div className="flex items-start gap-4 md:gap-8">
-                      <div className="w-10 h-10 md:w-12 md:h-12 border border-white/20 flex items-center justify-center text-accent">
-                        <Phone size={20} md:size={24} aria-hidden="true" />
-                      </div>
-                      <div>
-                        <div className="technical-label">Phone</div>
-                        <a href={`tel:${PHONE_NUMBER}`} className="text-xl md:text-3xl font-black hover:text-accent transition-colors outline-none relative z-50 pointer-events-auto" aria-label={`חייג אלינו: ${PHONE_NUMBER}`}>{PHONE_NUMBER}</a>
-                      </div>
+            <div className="max-w-6xl mx-auto bg-white/10 backdrop-blur-xl rounded-[2rem] border border-white/10 overflow-hidden flex flex-col lg:flex-row">
+              {/* Contact Details */}
+              <div className="lg:w-1/3 p-12 lg:p-16 lg:pl-12 text-white">
+                <h3 className="text-4xl font-black mb-12 tracking-tight">צור קשר</h3>
+                <div className="space-y-8">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-accent flex-shrink-0">
+                      <Phone size={20} />
                     </div>
-                    <div className="flex items-start gap-4 md:gap-8">
-                      <div className="w-10 h-10 md:w-12 md:h-12 border border-white/20 flex items-center justify-center text-accent">
-                        <Mail size={20} md:size={24} aria-hidden="true" />
-                      </div>
-                      <div>
-                        <div className="technical-label">Email</div>
-                        <a href="mailto:Samehover@gmail.com" className="text-xl md:text-2xl font-black hover:text-accent transition-colors whitespace-nowrap" aria-label="שלח אימייל ל-Samehover@gmail.com">Samehover@gmail.com</a>
-                      </div>
+                    <a href={`tel:${PHONE_NUMBER}`} className="text-lg md:text-2xl font-bold hover:text-accent transition-colors whitespace-nowrap">{PHONE_NUMBER}</a>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-accent flex-shrink-0">
+                      <Mail size={20} />
                     </div>
-                    <div className="flex items-start gap-4 md:gap-8">
-                      <div className="w-10 h-10 md:w-12 md:h-12 border border-white/20 flex items-center justify-center text-accent">
-                        <MapPin size={20} md:size={24} aria-hidden="true" />
-                      </div>
-                      <div>
-                        <div className="technical-label">Location</div>
-                        <div className="text-xl md:text-2xl font-black">פריסה ארצית</div>
-                      </div>
+                    <a href="mailto:Samehover@gmail.com" className="text-lg md:text-2xl font-bold hover:text-accent transition-colors whitespace-nowrap">Samehover@gmail.com</a>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-accent flex-shrink-0">
+                      <MapPin size={20} />
                     </div>
+                    <div className="text-lg md:text-2xl font-bold whitespace-nowrap">פריסה ארצית</div>
                   </div>
                 </div>
               </div>
 
-              <div id="contact-form-section" className="lg:w-1/2 p-12 lg:p-24 bg-white">
-                <form ref={form} onSubmit={handleFormSubmit} className="space-y-10" aria-label="טופס יצירת קשר">
-                  <div className="grid md:grid-cols-2 gap-10">
-                    <div className="border-b-2 border-slate-100 focus-within:border-accent transition-colors py-2">
-                      <label htmlFor="contact-name" className="technical-label">Full Name</label>
-                      <input 
-                        id="contact-name"
-                        name="name"
-                        type="text" 
-                        required
-                        className="w-full bg-transparent border-none focus:ring-0 text-xl font-black p-0"
-                        placeholder="הכנס את שמך"
-                        aria-label="שם מלא"
-                      />
-                    </div>
-                    <div className="border-b-2 border-slate-100 focus-within:border-accent transition-colors py-2">
-                      <label htmlFor="contact-phone" className="technical-label">Phone Number</label>
-                      <input 
-                        id="contact-phone"
-                        name="phone"
-                        type="tel" 
-                        required
-                        className="w-full bg-transparent border-none focus:ring-0 text-xl font-black p-0"
-                        placeholder="05X-XXXXXXX"
-                        aria-label="מספר טלפון"
-                      />
-                    </div>
-                  </div>
-                  <div className="border-b-2 border-slate-100 focus-within:border-accent transition-colors py-2">
-                    <label htmlFor="contact-service" className="technical-label">Service</label>
-                    <select 
-                      id="contact-service"
-                      name="subject"
+              {/* Form */}
+              <div className="lg:w-2/3 p-10 md:p-16 bg-white">
+                <form ref={form} onSubmit={handleFormSubmit} className="space-y-8">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <input 
+                      name="name"
+                      type="text" 
                       required
-                      className="w-full bg-transparent border-none focus:ring-0 text-xl font-black p-0"
-                      aria-label="בחר שירות"
-                    >
-                      <option value="">בחר שירות</option>
-                      {servicesData.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
-                      <option value="אחר">אחר</option>
-                    </select>
+                      className="w-full p-5 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-slate-950 text-lg transition-all"
+                      placeholder="שם מלא"
+                    />
+                    <input 
+                      name="phone"
+                      type="tel" 
+                      required
+                      className="w-full p-5 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-slate-950 text-lg transition-all"
+                      placeholder="מספר טלפון"
+                    />
                   </div>
-                  <div className="border-b-2 border-slate-100 focus-within:border-accent transition-colors py-2">
-                    <label htmlFor="contact-message" className="technical-label">Message</label>
-                    <textarea 
-                      id="contact-message"
-                      name="message"
-                      rows={3}
-                      className="w-full bg-transparent border-none focus:ring-0 text-xl font-black p-0 resize-none"
-                      placeholder="איך נוכל לעזור?"
-                      aria-label="הודעה"
-                    ></textarea>
-                  </div>
-                  <button type="submit" className="btn-primary w-full py-6 text-2xl uppercase tracking-tighter outline-none" aria-label="שלח הודעה">
+                  <select 
+                    name="subject"
+                    required
+                    className="w-full p-5 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-slate-950 text-lg transition-all"
+                  >
+                    <option value="">בחר שירות</option>
+                    {servicesData.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
+                  </select>
+                  <textarea 
+                    name="message"
+                    rows={4}
+                    className="w-full p-5 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-slate-950 text-lg transition-all"
+                    placeholder="איך נוכל לעזור?"
+                  ></textarea>
+                  <button type="submit" className="w-full bg-slate-950 text-white py-5 rounded-2xl font-black text-xl hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl">
                     שלח הודעה
                   </button>
                 </form>
