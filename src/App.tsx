@@ -423,13 +423,13 @@ export default function App() {
                 </div>
                 
                 <h1 className="text-3xl md:text-7xl font-black text-white leading-relaxed md:leading-[1.1] mb-6 tracking-tight">
-                   בדק בית, אבחון נזקי מים, פיקוח בנייה, ושמאות רכוש.
+                 ביצוע פרויקטים, פיקוח בנייה, בדק בית, איתור נזקי מים ושמאות רכוש
                 </h1>
                 
                 <div className="flex flex-col md:flex-row gap-6 items-start mb-8">
                   <div className="max-w-xl">
                     <p className="text-lg md:text-2xl text-slate-200 leading-tight font-light py-2">
-                      פתרונות הנדסיים מקיפים לבית: בדק בית, ליקויי בנייה, שמאות ופיקוח - שירות מקצועי עם חוות דעת קבילות בבית משפט.
+                   היתרון שלנו הוא שילוב מלא בין פיקוח הנדסי לביצוע בפועל. השליטה בתקני הבנייה מבטיחה לכם מבנה איכותי ובטוח, המגובה בדוחות ובחוות דעת מומחה קבילות בבית משפט.
                     </p>
                   </div>
                   
